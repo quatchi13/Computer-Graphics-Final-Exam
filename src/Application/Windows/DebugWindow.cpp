@@ -24,17 +24,30 @@ void DebugWindow::RenderMenuBar()
 		app.CurrentScene()->SetPhysicsDebugDrawMode(physicsDrawMode);
 	}
 
-	/*ImGui::Separator();
+	ImGui::Separator();
 
 	RenderFlags flags = renderLayer->GetRenderFlags();
 	bool changed = false;
-	bool temp = *(flags & RenderFlags::EnableColorCorrection);
-	if (ImGui::Checkbox("Enable Color Correction", &temp)) {
+
+	bool temp = *(flags & RenderFlags::NoAmbient);
+	if (ImGui::Checkbox("Disable Ambient", &temp)) {
 		changed = true;
-		flags = (flags & ~*RenderFlags::EnableColorCorrection) | (temp ? RenderFlags::EnableColorCorrection : RenderFlags::None);
+		flags = (flags & ~*RenderFlags::NoAmbient) | (temp ? RenderFlags::NoAmbient : RenderFlags::None);
+	}
+
+	temp = *(flags & RenderFlags::NoDiffuse);
+	if (ImGui::Checkbox("Enable Diffuse", &temp)) {
+		changed = true;
+		flags = (flags & ~*RenderFlags::NoDiffuse) | (temp ? RenderFlags::NoDiffuse : RenderFlags::None);
+	}
+
+	temp = *(flags & RenderFlags::NoSpecular);
+	if (ImGui::Checkbox("Enable Specular", &temp)) {
+		changed = true;
+		flags = (flags & ~*RenderFlags::NoSpecular) | (temp ? RenderFlags::NoSpecular : RenderFlags::None);
 	}
 
 	if (changed) {
 		renderLayer->SetRenderFlags(flags);
-	}*/
+	}
 }

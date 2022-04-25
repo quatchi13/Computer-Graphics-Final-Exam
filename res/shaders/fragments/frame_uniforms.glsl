@@ -47,7 +47,14 @@ layout (std140, binding = 1) uniform b_InstanceLevelUniforms {
     uniform mat4 u_NormalMatrix;
 };
 
-#define FLAG_ENABLE_COLOR_CORRECTION (1 << 0)
+#define FLAG_DISABLE_AMBIENT_LIGHTING (1 << 1)
+#define FLAG_DISABLE_DIFFUSE_LIGHTING (1 << 2)
+#define FLAG_DISABLE_SPECULAR_LIGHTING (1 << 3)
+#define FLAG_ENABLE_COLOR_DIFFUSE_WARP (1 << 5)
+#define FLAG_ENABLE_COLOR_SPECULAR_WARP (1 << 6)
+#define FLAG_ENABLE_COLOR_GRADING_WARM (1 << 7)
+#define FLAG_ENABLE_COLOR_GRADING_COOL (1 << 8)
+#define FLAG_ENABLE_COLOR_GRADING_CUSTOM (1 << 9)
 
 bool IsFlagSet(uint flag) {
     return (u_Flags & flag) != 0;

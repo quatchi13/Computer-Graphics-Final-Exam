@@ -9,8 +9,15 @@
 
 ENUM_FLAGS(RenderFlags, uint32_t,
 	None = 0,
-	EnableColorCorrection = 1 << 0
-);
+	NoAmbient = 1 << 1,
+	NoDiffuse = 1 << 2,
+	NoSpecular = 1 << 3,
+	DiffuseWarp = 1 << 5,
+	SpecularWarp = 1 << 6,
+	WarmColorCorrection = 1 << 7,
+	CoolColorCorrection = 1 << 8,
+	CustomColorCorrection = 1 << 9,
+	);
 
 class RenderLayer final : public ApplicationLayer {
 public:
