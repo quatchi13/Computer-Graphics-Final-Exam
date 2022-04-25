@@ -31,7 +31,7 @@ void PostProcessingLayer::AddEffect(const Effect::Sptr & effect) {
 
 void PostProcessingLayer::OnAppLoad(const nlohmann::json & config)
 {
-	// Loads effects in
+	// Loads some effects in
 	_effects.push_back(std::make_shared<ColorCorrectionEffect>());
 	_effects.push_back(std::make_shared<BoxFilter3x3>());
 	_effects.push_back(std::make_shared<BoxFilter5x5>());
@@ -40,7 +40,6 @@ void PostProcessingLayer::OnAppLoad(const nlohmann::json & config)
 	_effects.push_back(std::make_shared<Pixelation>());
 	_effects.push_back(std::make_shared<Filmgrain>());
 	_effects.push_back(std::make_shared<Nightvision>());
-
 
 
 	Application& app = Application::Get();
@@ -64,6 +63,14 @@ void PostProcessingLayer::OnAppLoad(const nlohmann::json & config)
 
 	VertexBuffer::Sptr vbo = std::make_shared<VertexBuffer>();
 	vbo->LoadData(positions, 6);
+
+	PostProcessingLayer::Sptr& postProcess = Application::Get().GetLayer<PostProcessingLayer>();
+	postProcess->GetEffect<Pixelation>()->Enabled = false;
+	postProcess->GetEffect<ColorCorrectionEffect>()->Enabled = false;
+	postProcess->GetEffect<Filmgrain>()->Enabled = true;
+	postProcess->GetEffect<Nightvision>()->Enabled = false;
+	postProcess->GetEffect<OutlineEffect>()->Enabled = false;
+	postProcess->GetEffect<DepthOfField>()->Enabled = false;
 
 	_quadVAO = VertexArrayObject::Create();
 	_quadVAO->AddVertexBuffer(vbo, {
