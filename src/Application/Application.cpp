@@ -46,6 +46,8 @@
 #include "Gameplay/Components/Light.h"
 #include "Gameplay/Components/ShadowCamera.h"
 #include "Gameplay/Components/ShipMoveBehaviour.h"
+#include "Gameplay/Components/PlayerController.h"
+#include "Gameplay/Components/WinBehaviour.h"
 
 // GUI
 #include "Gameplay/Components/GUI/RectTransform.h"
@@ -279,6 +281,8 @@ void Application::_RegisterClasses()
 	ComponentManager::RegisterType<Light>();
 	ComponentManager::RegisterType<ShadowCamera>();
 	ComponentManager::RegisterType<ShipMoveBehaviour>();
+	ComponentManager::RegisterType<WinBehaviour>();
+	ComponentManager::RegisterType<PlayerController>();
 }
 
 void Application::_Load() {

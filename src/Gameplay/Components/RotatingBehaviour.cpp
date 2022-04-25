@@ -5,6 +5,10 @@
 #include "Utils/ImGuiHelper.h"
 #include "Utils/JsonGlmHelpers.h"
 
+#include "Application/Layers/PostProcessingLayer.h"
+#include "Application/Application.h"
+#include "Application/Layers/PostProcessing/Pixelation.h"
+
 void RotatingBehaviour::Update(float deltaTime) {
 	GetGameObject()->SetRotation(GetGameObject()->GetRotationEuler() + RotationSpeed * deltaTime);
 

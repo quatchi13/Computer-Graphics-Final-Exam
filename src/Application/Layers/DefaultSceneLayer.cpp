@@ -49,6 +49,8 @@
 #include "Gameplay/Components/MaterialSwapBehaviour.h"
 #include "Gameplay/Components/TriggerVolumeEnterBehaviour.h"
 #include "Gameplay/Components/SimpleCameraControl.h"
+#include "Gameplay/Components/PlayerController.h"
+#include "Gameplay/Components/WinBehaviour.h"
 
 // Physics
 #include "Gameplay/Physics/RigidBody.h"
@@ -388,7 +390,7 @@ void DefaultSceneLayer::_CreateScene()
 			RigidBody::Sptr playerHitbox = player->Add<RigidBody>(RigidBodyType::Dynamic);
 			playerHitbox->AddCollider(BoxCollider::Create(glm::vec3(0.25f, 0.25f, 0.25f)))->SetPosition({ 0,0,0.110 });
 
-			//PlayerController::Sptr playerController = player->Add<PlayerController>();
+			PlayerController::Sptr playerController = player->Add<PlayerController>();
 
 			ParticleSystem::Sptr particleManager = player->Add<ParticleSystem>();
 			particleManager->Atlas = particleTex;
@@ -429,7 +431,47 @@ void DefaultSceneLayer::_CreateScene()
 		}
 
 
+		GameObject::Sptr egg = scene->CreateGameObject("Egg");
+		{
+			egg->SetPostion(glm::vec3(0, 0, 4));
+			egg->SetScale(glm::vec3(0.5f));
 
+			RenderComponent::Sptr renderer = egg->Add<RenderComponent>();
+			renderer->SetMesh(sphere);
+			renderer->SetMaterial(grey);
+
+			RotatingBehaviour::Sptr move = egg->Add<RotatingBehaviour>();
+			move->RotationSpeed = glm::vec3(0, 0, 180);
+			move->MoveSpeed = glm::vec3(0, 1, 0.25f);
+
+			TriggerVolume::Sptr trigger = egg->Add<TriggerVolume>();
+			SphereCollider::Sptr collider = SphereCollider::Create(0.5f);
+			collider->SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+			trigger->AddCollider(collider);
+
+			SphereCollider::Sptr collider2 = SphereCollider::Create(0.45f);
+			collider2->SetPosition(glm::vec3(0.0f, 0.0f, -3));
+			trigger->AddCollider(collider2);
+
+			ParticleSystem::Sptr particleManager = egg->Add<ParticleSystem>();
+			particleManager->Atlas = particleTex;
+
+			particleManager->_gravity = glm::vec3(0.0f, 0.0f, 0.3f);
+
+			ParticleSystem::ParticleData emitter;
+			emitter.Type = ParticleType::SphereEmitter;
+			emitter.TexID = 2;
+			emitter.Position = glm::vec3(0.0f, 0.0f, -0.3f);
+			emitter.Color = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
+			emitter.Lifetime = 1.0f / 50.0f;
+			emitter.SphereEmitterData.Timer = 1.0f / 50.0f;
+			emitter.SphereEmitterData.Velocity = 0.5f;
+			emitter.SphereEmitterData.LifeRange = { 1.0f, 3.0f };
+			emitter.SphereEmitterData.Radius = 0.1f;
+			emitter.SphereEmitterData.SizeRange = { 0.1f, 0.5f };
+
+			particleManager->AddEmitter(emitter);
+		}
 
 		// Add some walls :3
 		{
