@@ -90,7 +90,16 @@
     <ClInclude Include="src\Application\Layers\PostProcessing\DepthOfField.h">
       <Filter>Application\Layers\PostProcessing</Filter>
     </ClInclude>
+    <ClInclude Include="src\Application\Layers\PostProcessing\FIlmgrain.h">
+      <Filter>Application\Layers\PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Application\Layers\PostProcessing\Nightvision.h">
+      <Filter>Application\Layers\PostProcessing</Filter>
+    </ClInclude>
     <ClInclude Include="src\Application\Layers\PostProcessing\OutlineEffect.h">
+      <Filter>Application\Layers\PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Application\Layers\PostProcessing\Pixelation.h">
       <Filter>Application\Layers\PostProcessing</Filter>
     </ClInclude>
     <ClInclude Include="src\Application\Layers\PostProcessingLayer.h">
@@ -377,7 +386,16 @@
     <ClCompile Include="src\Application\Layers\PostProcessing\DepthOfField.cpp">
       <Filter>Application\Layers\PostProcessing</Filter>
     </ClCompile>
+    <ClCompile Include="src\Application\Layers\PostProcessing\FIlmgrain.cpp">
+      <Filter>Application\Layers\PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Application\Layers\PostProcessing\Nightvison.cpp">
+      <Filter>Application\Layers\PostProcessing</Filter>
+    </ClCompile>
     <ClCompile Include="src\Application\Layers\PostProcessing\OutlineEffect.cpp">
+      <Filter>Application\Layers\PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Application\Layers\PostProcessing\Pixelation.cpp">
       <Filter>Application\Layers\PostProcessing</Filter>
     </ClCompile>
     <ClCompile Include="src\Application\Layers\PostProcessingLayer.cpp">

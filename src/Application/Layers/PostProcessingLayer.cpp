@@ -8,34 +8,40 @@
 #include "PostProcessing/BoxFilter5x5.h"
 #include "PostProcessing/OutlineEffect.h"
 #include "PostProcessing/DepthOfField.h"
+#include "PostProcessing/Pixelation.h"
+#include "PostProcessing/Nightvision.h"
+#include "PostProcessing/Filmgrain.h"
 
 PostProcessingLayer::PostProcessingLayer() :
-	ApplicationLayer()
-{
+	ApplicationLayer() {
+
 	Name = "Post Processing";
 	Overrides =
 		AppLayerFunctions::OnAppLoad |
-		AppLayerFunctions::OnSceneLoad | AppLayerFunctions::OnSceneUnload | 
+		AppLayerFunctions::OnSceneLoad | AppLayerFunctions::OnSceneUnload |
 		AppLayerFunctions::OnPostRender |
 		AppLayerFunctions::OnWindowResize;
 }
 
 PostProcessingLayer::~PostProcessingLayer() = default;
 
-void PostProcessingLayer::AddEffect(const Effect::Sptr& effect) {
+void PostProcessingLayer::AddEffect(const Effect::Sptr & effect) {
 	_effects.push_back(effect);
 }
 
-void PostProcessingLayer::OnAppLoad(const nlohmann::json& config)
+void PostProcessingLayer::OnAppLoad(const nlohmann::json & config)
 {
-	// Loads some effects in
+	// Loads effects in
 	_effects.push_back(std::make_shared<ColorCorrectionEffect>());
 	_effects.push_back(std::make_shared<BoxFilter3x3>());
 	_effects.push_back(std::make_shared<BoxFilter5x5>());
 	_effects.push_back(std::make_shared<OutlineEffect>());
 	_effects.push_back(std::make_shared<DepthOfField>());
+	_effects.push_back(std::make_shared<Pixelation>());
+	_effects.push_back(std::make_shared<Filmgrain>());
+	_effects.push_back(std::make_shared<Nightvision>());
 
-	GetEffect<OutlineEffect>()->Enabled = false;
+
 
 	Application& app = Application::Get();
 	const glm::uvec4& viewport = app.GetPrimaryViewport();
@@ -43,7 +49,7 @@ void PostProcessingLayer::OnAppLoad(const nlohmann::json& config)
 	// Initialize all the effect's output FBOs (inefficient) 
 	for (const auto& effect : _effects) {
 		FramebufferDescriptor fboDesc = FramebufferDescriptor();
-		fboDesc.Width  = viewport.z * effect->_outputScale.x;
+		fboDesc.Width = viewport.z * effect->_outputScale.x;
 		fboDesc.Height = viewport.w * effect->_outputScale.y;
 		fboDesc.RenderTargets[RenderTargetAttachment::Color0] = RenderTargetDescriptor(effect->_format);
 
@@ -62,7 +68,7 @@ void PostProcessingLayer::OnAppLoad(const nlohmann::json& config)
 	_quadVAO = VertexArrayObject::Create();
 	_quadVAO->AddVertexBuffer(vbo, {
 		BufferAttribute(0, 2, AttributeType::Float, sizeof(glm::vec2), 0, AttribUsage::Position)
-	});
+		});
 }
 
 void PostProcessingLayer::OnPostRender()
@@ -123,15 +129,7 @@ void PostProcessingLayer::OnPostRender()
 		MagFilter::Linear
 	);
 
-	gBuffer->Bind(FramebufferBinding::Read);
-	current->Blit(
-		{ 0, 0, gBuffer->GetWidth(), gBuffer->GetHeight() },
-		{ viewport.x, viewport.y, viewport.x + viewport.z, viewport.y + viewport.w },
-		BufferFlags::Depth,
-		MagFilter::Nearest
-	);
-
-	gBuffer->Unbind();
+	current->Unbind();
 }
 
 void PostProcessingLayer::OnSceneLoad()
@@ -148,7 +146,7 @@ void PostProcessingLayer::OnSceneUnload()
 	}
 }
 
-void PostProcessingLayer::OnWindowResize(const glm::ivec2& oldSize, const glm::ivec2& newSize)
+void PostProcessingLayer::OnWindowResize(const glm::ivec2 & oldSize, const glm::ivec2 & newSize)
 {
 	for (const auto& effect : _effects) {
 		effect->OnWindowResize(oldSize, newSize);
