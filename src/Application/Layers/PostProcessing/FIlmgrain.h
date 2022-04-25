@@ -22,7 +22,7 @@ public:
 
 protected:
 	ShaderProgram::Sptr _shader;
-	float _strength = 0.3f;
+	float _strength = 0.03f;
 	float _scale = 10000.0f;
 	float _amount = 30.0f;
 
