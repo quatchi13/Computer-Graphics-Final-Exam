@@ -433,7 +433,7 @@ void DefaultSceneLayer::_CreateScene()
 
 		GameObject::Sptr egg = scene->CreateGameObject("Egg");
 		{
-			egg->SetPostion(glm::vec3(0, 0, 4));
+			egg->SetPostion(glm::vec3(0, -2, 4));
 			egg->SetScale(glm::vec3(0.5f));
 
 			RenderComponent::Sptr renderer = egg->Add<RenderComponent>();
@@ -442,16 +442,12 @@ void DefaultSceneLayer::_CreateScene()
 
 			RotatingBehaviour::Sptr move = egg->Add<RotatingBehaviour>();
 			move->RotationSpeed = glm::vec3(0, 0, 180);
-			move->MoveSpeed = glm::vec3(0, 1, 0.25f);
+			move->MoveSpeed = glm::vec3(0, 1, -0.5f);
 
 			TriggerVolume::Sptr trigger = egg->Add<TriggerVolume>();
 			SphereCollider::Sptr collider = SphereCollider::Create(0.5f);
 			collider->SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 			trigger->AddCollider(collider);
-
-			SphereCollider::Sptr collider2 = SphereCollider::Create(0.45f);
-			collider2->SetPosition(glm::vec3(0.0f, 0.0f, -3));
-			trigger->AddCollider(collider2);
 
 			ParticleSystem::Sptr particleManager = egg->Add<ParticleSystem>();
 			particleManager->Atlas = particleTex;
@@ -494,6 +490,17 @@ void DefaultSceneLayer::_CreateScene()
 			wall2->SetScale(glm::vec3(0.5f));
 			wall2->SetPostion(glm::vec3(0.0f, -2.25f, 1.5f));
 			wall2->SetRotation(glm::vec3(0.0f, 0.0f, 90.0f));
+			
+			TriggerVolume::Sptr trigger1 = wall2->Add<TriggerVolume>();
+			BoxCollider::Sptr collider1 = BoxCollider::Create(glm::vec3(0.5f));
+			collider1->SetPosition(glm::vec3(0.0f, 0.0f, 0.15f));
+			collider1->SetScale(glm::vec3(2.0f, 2.0f, 0.2f));
+			trigger1->AddCollider(collider1);
+
+			TriggerVolumeEnterBehaviour::Sptr volume1 = wall1->Add<TriggerVolumeEnterBehaviour>();
+			
+			
+			
 			plane->AddChild(wall2);
 
 			RigidBody::Sptr physics2 = wall2->Add<RigidBody>(/*static by default*/);

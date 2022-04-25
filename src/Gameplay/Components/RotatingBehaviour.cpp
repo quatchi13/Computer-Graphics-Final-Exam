@@ -14,14 +14,9 @@ void RotatingBehaviour::Update(float deltaTime) {
 
 	GetGameObject()->SetPostion(GetGameObject()->GetPosition() + MoveSpeed * deltaTime);
 
-	if (GetGameObject()->GetPosition().y > 2.5 || GetGameObject()->GetPosition().y < -2.5)
+	if (GetGameObject()->GetPosition().z < 1.00)
 	{
-		MoveSpeed *= glm::vec3(1,-1,1);
-	}
-
-	if (GetGameObject()->GetPosition().z > 4.25 || GetGameObject()->GetPosition().z < 3.75)
-	{
-		MoveSpeed *= glm::vec3(1, 1, -1);
+		GetGameObject()->SetPostion(glm::vec3(0,-2,4));
 	}
 
 }
