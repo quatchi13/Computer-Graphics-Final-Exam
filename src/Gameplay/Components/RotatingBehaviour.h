@@ -1,9 +1,16 @@
 #pragma once
 #include "IComponent.h"
 
+#include "Gameplay/Physics/TriggerVolume.h"
+#include "Gameplay/Components/RenderComponent.h"
+#include "Gameplay/Physics/TriggerVolume.h"
+
+
 #include "Application/Layers/PostProcessingLayer.h"
 #include "Application/Application.h"
+#include "Application/Layers/PostProcessing/Nightvision.h"
 #include "Application/Layers/PostProcessing/Pixelation.h"
+
 
 /// <summary>
 /// Showcases a very simple behaviour that rotates the parent gameobject at a fixed rate over time
@@ -15,7 +22,7 @@ public:
 	RotatingBehaviour() = default;
 	glm::vec3 RotationSpeed;
 	glm::vec3 MoveSpeed;
-
+	int count = 0;
 
 	PostProcessingLayer::Sptr& postProcess = Application::Get().GetLayer<PostProcessingLayer>();
 	bool state = false;

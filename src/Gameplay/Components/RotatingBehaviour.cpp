@@ -1,13 +1,12 @@
 #include "Gameplay/Components/RotatingBehaviour.h"
 
 #include "Gameplay/GameObject.h"
-
 #include "Utils/ImGuiHelper.h"
 #include "Utils/JsonGlmHelpers.h"
 
-#include "Application/Layers/PostProcessingLayer.h"
-#include "Application/Application.h"
-#include "Application/Layers/PostProcessing/Pixelation.h"
+
+
+
 
 void RotatingBehaviour::Update(float deltaTime) {
 	GetGameObject()->SetRotation(GetGameObject()->GetRotationEuler() + RotationSpeed * deltaTime);
@@ -17,14 +16,24 @@ void RotatingBehaviour::Update(float deltaTime) {
 	if (GetGameObject()->GetPosition().z < 1.00)
 	{
 		GetGameObject()->SetPostion(glm::vec3(0,-2,4));
+		count++;
 	}
 
+	if (count > 9)
+	{
+		postProcess->GetEffect<Nightvision>()->Enabled = true;
+	}
 }
 
 void RotatingBehaviour::OnTriggerVolumeEntered(const std::shared_ptr<Gameplay::Physics::RigidBody>& body)
 {
+
+	if (body->GetGameObject()->Name == "Player")
+	{
 		postProcess->GetEffect<Pixelation>()->Enabled = true;
 		state = true;
+	}
+		
 }
 
 void RotatingBehaviour::RenderImGui() {

@@ -555,6 +555,7 @@ void DefaultSceneLayer::_CreateScene()
 			
 			
 			
+			
 			plane->AddChild(wall2);
 
 			RigidBody::Sptr physics2 = wall2->Add<RigidBody>(/*static by default*/);
