@@ -3,18 +3,22 @@
 #include "Gameplay/Physics/TriggerVolume.h"
 #include "Gameplay/Components/RenderComponent.h"
 #include "Gameplay/Physics/TriggerVolume.h"
-#include "Gameplay/Components/PlayerController.h"
+
+
+#include "Application/Layers/PostProcessingLayer.h"
+#include "Application/Application.h"
+#include "Application/Layers/PostProcessing/Nightvision.h"
 
 /// <summary>
 /// Provides an example behaviour that uses some of the trigger interface to change the material
 /// of the game object the component is attached to when entering or leaving a trigger
 /// </summary>
-class TriggerVolumeEnterBehaviour : public Gameplay::IComponent {
+class WinBehaviour : public Gameplay::IComponent {
 
 public:
-	typedef std::shared_ptr<TriggerVolumeEnterBehaviour> Sptr;
-	TriggerVolumeEnterBehaviour();
-	virtual ~TriggerVolumeEnterBehaviour();
+	typedef std::shared_ptr<WinBehaviour> Sptr;
+	WinBehaviour();
+	virtual ~WinBehaviour();
 
 	// Inherited from IComponent
 
@@ -22,10 +26,10 @@ public:
 	virtual void OnTriggerVolumeLeaving(const std::shared_ptr<Gameplay::Physics::RigidBody>& body) override;
 	virtual void RenderImGui() override;
 	virtual nlohmann::json ToJson() const override;
-	static TriggerVolumeEnterBehaviour::Sptr FromJson(const nlohmann::json& blob);
-	MAKE_TYPENAME(TriggerVolumeEnterBehaviour);
+	static WinBehaviour::Sptr FromJson(const nlohmann::json& blob);
+	MAKE_TYPENAME(WinBehaviour);
 
-	PlayerController::Sptr playerController;
+	PostProcessingLayer::Sptr& postProcess = Application::Get().GetLayer<PostProcessingLayer>();
 
 protected:
 	bool _playerInTrigger;

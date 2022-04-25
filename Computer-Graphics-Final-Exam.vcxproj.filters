@@ -162,6 +162,9 @@
     <ClInclude Include="src\Gameplay\Components\ParticleSystem.h">
       <Filter>Gameplay\Components</Filter>
     </ClInclude>
+    <ClInclude Include="src\Gameplay\Components\PlayerController.h">
+      <Filter>Gameplay\Components</Filter>
+    </ClInclude>
     <ClInclude Include="src\Gameplay\Components\RenderComponent.h">
       <Filter>Gameplay\Components</Filter>
     </ClInclude>
@@ -178,6 +181,9 @@
       <Filter>Gameplay\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\Gameplay\Components\TriggerVolumeEnterBehaviour.h">
+      <Filter>Gameplay\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gameplay\Components\WinBehaviour.h">
       <Filter>Gameplay\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\Gameplay\GameObject.h">
@@ -452,6 +458,9 @@
     <ClCompile Include="src\Gameplay\Components\ParticleSystem.cpp">
       <Filter>Gameplay\Components</Filter>
     </ClCompile>
+    <ClCompile Include="src\Gameplay\Components\PlayerController.cpp">
+      <Filter>Gameplay\Components</Filter>
+    </ClCompile>
     <ClCompile Include="src\Gameplay\Components\RenderComponent.cpp">
       <Filter>Gameplay\Components</Filter>
     </ClCompile>
@@ -468,6 +477,9 @@
       <Filter>Gameplay\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\Gameplay\Components\TriggerVolumeEnterBehaviour.cpp">
+      <Filter>Gameplay\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gameplay\Components\WinBehaviour.cpp">
       <Filter>Gameplay\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\Gameplay\GameObject.cpp">
