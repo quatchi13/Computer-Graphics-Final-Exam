@@ -433,7 +433,7 @@ void DefaultSceneLayer::_CreateScene()
 		GameObject::Sptr player = scene->CreateGameObject("Player");
 		{
 			// Set and rotation position in the scene
-			player->SetPostion(glm::vec3(0.0f, 4.5f, 2.5f));
+			player->SetPostion(glm::vec3(0.0f, 1.5f, 2.5f));
 			player->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
 
 			// Add a render component

@@ -85,7 +85,7 @@ void PlayerController::Update(float deltaTime) {
 	}
 	//character reset (just in case ;D)
 	if (InputEngine::GetKeyState(GLFW_KEY_R) == ButtonState::Down) {
-		GetGameObject()->SetPostion(glm::vec3(0, 4.5, 2.5));
+		GetGameObject()->SetPostion(glm::vec3(0, 1.5, 2.5));
 
 		postProcess->GetEffect<Pixelation>()->Enabled = false;
 		postProcess->GetEffect<Nightvision>()->Enabled = false;
