@@ -148,6 +148,8 @@ void DefaultSceneLayer::_CreateScene()
 		MeshResource::Sptr snakeNeck = ResourceManager::CreateAsset<MeshResource>("snakeright.obj");
 		MeshResource::Sptr snakeHead = ResourceManager::CreateAsset<MeshResource>("snakehead.obj");
 
+		MeshResource::Sptr megaman = ResourceManager::CreateAsset<MeshResource>("megaman.obj");
+
 		// Load in some textures
 		Texture2D::Sptr    boxTexture   = ResourceManager::CreateAsset<Texture2D>("textures/box-diffuse.png");
 		Texture2D::Sptr    boxSpec      = ResourceManager::CreateAsset<Texture2D>("textures/box-specular.png");
@@ -155,6 +157,22 @@ void DefaultSceneLayer::_CreateScene()
 		Texture2D::Sptr    leafTex      = ResourceManager::CreateAsset<Texture2D>("textures/leaves.png");
 		leafTex->SetMinFilter(MinFilter::Nearest);
 		leafTex->SetMagFilter(MagFilter::Nearest);
+
+		Texture2D::Sptr    megamanTex = ResourceManager::CreateAsset<Texture2D>("textures/megaman.png");
+		megamanTex->SetMinFilter(MinFilter::Nearest);
+		megamanTex->SetMagFilter(MagFilter::Nearest);
+		Texture2D::Sptr    snakeleftTex = ResourceManager::CreateAsset<Texture2D>("textures/snakeleftTex.png");
+		snakeleftTex->SetMinFilter(MinFilter::Nearest);
+		snakeleftTex->SetMagFilter(MagFilter::Nearest);
+		Texture2D::Sptr    snakemiddleTex = ResourceManager::CreateAsset<Texture2D>("textures/snakemiddleTex.png");
+		snakemiddleTex->SetMinFilter(MinFilter::Nearest);
+		snakemiddleTex->SetMagFilter(MagFilter::Nearest);
+		Texture2D::Sptr    snakerightTex = ResourceManager::CreateAsset<Texture2D>("textures/snakerightTex.png");
+		snakerightTex->SetMinFilter(MinFilter::Nearest);
+		snakerightTex->SetMagFilter(MagFilter::Nearest);
+		Texture2D::Sptr    snakeheadTex = ResourceManager::CreateAsset<Texture2D>("textures/snakeheadTex.png");
+		snakeheadTex->SetMinFilter(MinFilter::Nearest);
+		snakeheadTex->SetMagFilter(MagFilter::Nearest);
 
 		// Load some images for drag n' drop
 		ResourceManager::CreateAsset<Texture2D>("textures/flashlight.png");
@@ -223,6 +241,46 @@ void DefaultSceneLayer::_CreateScene()
 			boxMaterial->Set("u_Material.AlbedoMap", boxTexture);
 			boxMaterial->Set("u_Material.Shininess", 0.1f);
 			boxMaterial->Set("u_Material.NormalMap", normalMapDefault);
+		}
+
+		Material::Sptr snakeLeftMat = ResourceManager::CreateAsset<Material>(deferredForward);
+		{
+			snakeLeftMat->Name = "Snake Left";
+			snakeLeftMat->Set("u_Material.AlbedoMap", snakeleftTex);
+			snakeLeftMat->Set("u_Material.Shininess", 0.1f);
+			snakeLeftMat->Set("u_Material.NormalMap", normalMapDefault);
+		}
+
+		Material::Sptr snakeMiddleMat = ResourceManager::CreateAsset<Material>(deferredForward);
+		{
+			snakeMiddleMat->Name = "Snake Middle";
+			snakeMiddleMat->Set("u_Material.AlbedoMap", snakemiddleTex);
+			snakeMiddleMat->Set("u_Material.Shininess", 0.1f);
+			snakeMiddleMat->Set("u_Material.NormalMap", normalMapDefault);
+		}
+
+		Material::Sptr snakeRightMat = ResourceManager::CreateAsset<Material>(deferredForward);
+		{
+			snakeRightMat->Name = "Snake Right";
+			snakeRightMat->Set("u_Material.AlbedoMap", snakerightTex);
+			snakeRightMat->Set("u_Material.Shininess", 0.1f);
+			snakeRightMat->Set("u_Material.NormalMap", normalMapDefault);
+		}
+
+		Material::Sptr snakeHeadMat = ResourceManager::CreateAsset<Material>(deferredForward);
+		{
+			snakeHeadMat->Name = "Snake Right";
+			snakeHeadMat->Set("u_Material.AlbedoMap", snakeheadTex);
+			snakeHeadMat->Set("u_Material.Shininess", 0.1f);
+			snakeHeadMat->Set("u_Material.NormalMap", normalMapDefault);
+		}
+
+		Material::Sptr megamanMat = ResourceManager::CreateAsset<Material>(deferredForward);
+		{
+			megamanMat->Name = "Snake Right";
+			megamanMat->Set("u_Material.AlbedoMap", megamanTex);
+			megamanMat->Set("u_Material.Shininess", 0.1f);
+			megamanMat->Set("u_Material.NormalMap", normalMapDefault);
 		}
 
 		// This will be the reflective material, we'll make the whole thing 90% reflective
@@ -374,18 +432,14 @@ void DefaultSceneLayer::_CreateScene()
 		// Player object
 		GameObject::Sptr player = scene->CreateGameObject("Player");
 		{
-			MeshResource::Sptr box = ResourceManager::CreateAsset<MeshResource>();
-			box->AddParam(MeshBuilderParam::CreateCube(glm::vec3(0, 0, 0.1f), ONE));
-			box->GenerateMesh();
-
 			// Set and rotation position in the scene
 			player->SetPostion(glm::vec3(0.0f, 4.5f, 2.5f));
 			player->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
 
 			// Add a render component
 			RenderComponent::Sptr renderer = player->Add<RenderComponent>();
-			renderer->SetMesh(box);
-			renderer->SetMaterial(boxMaterial);
+			renderer->SetMesh(megaman);
+			renderer->SetMaterial(megamanMat);
 
 			RigidBody::Sptr playerHitbox = player->Add<RigidBody>(RigidBodyType::Dynamic);
 			playerHitbox->AddCollider(BoxCollider::Create(glm::vec3(0.25f, 0.25f, 0.25f)))->SetPosition({ 0,0,0.110 });
@@ -476,7 +530,7 @@ void DefaultSceneLayer::_CreateScene()
 
 
 			GameObject::Sptr wall1 = scene->CreateGameObject("Wall1");
-			wall1->Add<RenderComponent>()->SetMesh(snakeTail)->SetMaterial(boxMaterial);
+			wall1->Add<RenderComponent>()->SetMesh(snakeTail)->SetMaterial(snakeLeftMat);
 			wall1->SetScale(glm::vec3(0.5f));
 			wall1->SetPostion(glm::vec3(0.0f, 0.75f, 1.25f));
 			wall1->SetRotation(glm::vec3(0.0f, 0.0f, 90.0f));
@@ -486,7 +540,7 @@ void DefaultSceneLayer::_CreateScene()
 			physics1->AddCollider(BoxCollider::Create(glm::vec3(0.5f, 0.5f, 0.75f)))->SetPosition({ 0,0,0 });
 
 			GameObject::Sptr wall2 = scene->CreateGameObject("Wall2");
-			wall2->Add<RenderComponent>()->SetMesh(snakeBody)->SetMaterial(boxMaterial);
+			wall2->Add<RenderComponent>()->SetMesh(snakeBody)->SetMaterial(snakeMiddleMat);
 			wall2->SetScale(glm::vec3(0.5f));
 			wall2->SetPostion(glm::vec3(0.0f, -2.25f, 1.5f));
 			wall2->SetRotation(glm::vec3(0.0f, 0.0f, 90.0f));
@@ -507,7 +561,7 @@ void DefaultSceneLayer::_CreateScene()
 			physics2->AddCollider(BoxCollider::Create(glm::vec3(3.0f, 0.5f, 0.5f)))->SetPosition({ 0.5,0,0 });
 
 			GameObject::Sptr wall3 = scene->CreateGameObject("Wall3");
-			wall3->Add<RenderComponent>()->SetMesh(snakeNeck)->SetMaterial(boxMaterial);
+			wall3->Add<RenderComponent>()->SetMesh(snakeNeck)->SetMaterial(snakeRightMat);
 			wall3->SetScale(glm::vec3(0.5f));
 			wall3->SetPostion(glm::vec3(0.0f, -4.25f, 2.75f));
 			wall3->SetRotation(glm::vec3(0.0f, 0.0f, 90.0f));
@@ -517,7 +571,7 @@ void DefaultSceneLayer::_CreateScene()
 			physics3->AddCollider(BoxCollider::Create(glm::vec3(0.5f, 0.5f, 0.75f)))->SetPosition({ 0,0,0 });
 
 			GameObject::Sptr wall4 = scene->CreateGameObject("Wall4");
-			wall4->Add<RenderComponent>()->SetMesh(snakeHead)->SetMaterial(boxMaterial);
+			wall4->Add<RenderComponent>()->SetMesh(snakeHead)->SetMaterial(snakeHeadMat);
 			wall4->SetScale(glm::vec3(0.5f));
 			wall4->SetPostion(glm::vec3(0.0f, -3.5f, 4.50f));
 			wall4->SetRotation(glm::vec3(0.0f, 0.0f, 90.0f));
